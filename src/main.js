@@ -1,6 +1,6 @@
 import { Start } from './scenes/Start.js';
 
-//commit fonctionne ? 
+//commit fonctionne skibid ? 
 
 const config = {
     type: Phaser.AUTO,
