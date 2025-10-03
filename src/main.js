@@ -4,13 +4,13 @@ import { Start } from './scenes/Start.js';
 
 const config = {
     type: Phaser.AUTO,
-    title: 'Overlord Rising',
-    description: '',
+    title: '33 Days',
+    description: 'Survive 33 days as the new king of Aslandia',
     parent: 'game-container',
-    width: 1280,
-    height: 720,
+    width: 320,
+    height: 180,
     backgroundColor: '#000000',
-    pixelArt: false,
+    pixelArt: true,
     scene: [
         Start
     ],
