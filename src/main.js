@@ -3,7 +3,7 @@ import { Start } from './scenes/Start.js';
 //commit fonctionne skibid ? 
 
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     title: '33 Days',
     description: 'Survive 33 days as the new king of Aslandia',
     parent: 'game-container',
