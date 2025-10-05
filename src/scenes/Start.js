@@ -6,6 +6,7 @@ export class Start extends Phaser.Scene {
 
     preload() {
         this.load.image('castle_bg', 'assets/33daysCroquisReaelest.png'); 
+        this.load.image('king', 'assets/spriteSheetKing.png');
         //this.load.image('background', 'assets/33daysCroquisReal.png');
         
        // this.load.image('logo', 'assets/phaser.png');
@@ -16,6 +17,7 @@ export class Start extends Phaser.Scene {
 
     create() {
         let bg = this.add.image(0, 0, 'castle_bg').setOrigin(0, 0);
+        this.add.image(this.scale.width/2 - 20, this.scale.height/2, 'king');
 
         bg.setScale(
     this.scale.width / bg.width,
