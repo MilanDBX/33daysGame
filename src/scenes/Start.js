@@ -1,10 +1,18 @@
 
 // Définition de la classe Button en haut du fichier
 import Character from '../Character.js';
-import Faction from '../Faction.js';
+import Faction, { printFactions } from '../Faction.js';
+import gameState from '../gameState.js';
+import Button from '../Button.js';
+import  nextDay  from '../nextDay.js';
+import {printCharacters} from '../Character.js';
+import {printValues} from '../economy.js';
+import {increaseValue} from '../economy.js';
 
 
-class Button extends Phaser.GameObjects.Container {
+
+
+class UI extends Phaser.GameObjects.Container {
     constructor(scene, x, y, bgKey='basic_UI',hoverKey = 'long_UI', logoKey, callback = console.log("button pressed")) {
         super(scene, x, y);
 
@@ -55,15 +63,7 @@ this.bg.setTexture(bgKey)
     }
 }
 
-const gameState = {
-    jour: 1,
-    argent: 1000,
-    lois: {},
-    factions: [],
-    personnages: [],
-    scoreGuerre: {}, // par faction
-    scoreAmitie: {}, // par faction
-};
+
 
 export class Start extends Phaser.Scene {
 
@@ -76,6 +76,16 @@ export class Start extends Phaser.Scene {
 
     preload() {
 
+        this.load.bitmapFont('okok', 'assets/fonts/okok_0.png', 'assets/fonts/okok.fnt');
+
+
+        this.load.image('joursuivant_rest', 'assets/UI/buttons/button_rest.png');
+        this.load.image('joursuivant_hover', 'assets/UI/buttons/button_hover.png');
+        this.load.image('joursuivant_pressed', 'assets/UI/buttons/button_pressed.png');
+
+        this.load.image('day_rest', 'assets/UI/buttons/BaseState.png');
+        this.load.image('day_hover', 'assets/UI/buttons/hoverState.png');
+        this.load.image('day_pressed', 'assets/UI/buttons/pressedState.png');
 
         this.load.image('castle_bg', 'assets/33daysCroquisReaelest.png'); 
         this.load.image('king', 'assets/spriteSheetKing.png');
@@ -92,75 +102,30 @@ export class Start extends Phaser.Scene {
         this.load.image('long_UI', 'assets/UI/long_UI.png');
         this.load.image('long_vertical_UI', 'assets/UI/long_vertical_UI.png');
     
-        //this.load.image('background', 'assets/33daysCroquisReal.png');
-        
-       // this.load.image('logo', 'assets/phaser.png');
-
-        //  The ship sprite is CC0 from https://ansimuz.itch.io - check out his other work!
-       // this.load.spritesheet('ship', 'assets/spaceship.png', { frameWidth: 176, frameHeight: 96 });
+      
     }
 
     create() {
+ 
+    let dayText = this.add.bitmapText(230, 5, 'okok', 'J:1', 16);
+
+      let showDay = new Button(this, 272, 2, 'day_rest', 'day_hover', 'day_pressed', () => this.dayText.setText('J:' + gameState.jour), this.dayText);
+
+        let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {nextDay(gameState)});
+        let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printCharacters(gameState.personnages)});
+        let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions)});
+        let tempButtonc = new Button(this, 134, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
+         let tempButtond = new Button(this, 178, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1)});
         let bg = this.add.image(0, 0, 'castle_bg').setOrigin(0, 0);
         this.add.image(137, 120, 'king');
 
-    this.button_economy = new Button(this, 12, 45, 'basic_UI','long_UI', 'economy_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_laws = new Button(this, 12, 67, 'basic_UI','long_UI', 'laws_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_diplomacy = new Button(this, 12, 89, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_court = new Button(this, 12, 111, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_economy = new Button(this, 305, 12, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_economy = new UI(this, 12, 45, 'basic_UI','long_UI', 'economy_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_laws = new UI(this, 12, 67, 'basic_UI','long_UI', 'laws_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_diplomacy = new UI(this, 12, 89, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_court = new UI(this, 12, 111, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_economy = new UI(this, 305, 12, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
 
 
-//button creaction 
-/*
-
-        let economy_container = this.add.container(12, 45);
-        let laws_container = this.add.container(12, 67);
-        let diplomacy_container = this.add.container(12, 89);
-        let court_container = this.add.container(12, 111);
-        let setting_container = this.add.container(305, 12);
-
-        let button_economy_bg = this.add.image(0,0,'basic_UI').setOrigin(0.5, 0.5);
-        let button_laws_bg = this.add.image(0,0,'basic_UI').setOrigin(0.5, 0.5);
-        let button_diplomacy_bg = this.add.image(0,0,'basic_UI').setOrigin(0.5, 0.5);
-        let button_court_bg = this.add.image(0,0,'basic_UI').setOrigin(0.5, 0.5);
-        let button_setting_bg = this.add.image(0,0,'basic_UI').setOrigin(0.5, 0.5);
-
-        let button_economy_lg = this.add.image(0,0,'economy_UI').setOrigin(0.5, 0.5);
-        let button_laws_lg = this.add.image(0,0,'laws_UI').setOrigin(0.5, 0.5);
-        let button_diplomacy_lg = this.add.image(0,0,'diplomacy_UI').setOrigin(0.5, 0.5);
-        let button_court_lg = this.add.image(0,0,'court_UI').setOrigin(0.5, 0.5);
-        let button_setting_lg = this.add.image(0,0,'setting_UI').setOrigin(0.5, 0.5);
-
-       economy_container.add([button_economy_bg, button_economy_lg]);
-       laws_container.add([button_laws_bg, button_laws_lg]);
-       diplomacy_container.add([button_diplomacy_bg, button_diplomacy_lg]);
-       court_container.add([button_court_bg, button_court_lg]);
-       setting_container.add([button_setting_bg, button_setting_lg]);
-
-        economy_container.setSize(button_economy_bg.width, button_economy_bg.height); // définit la zone cliquable
-        economy_container.setInteractive({ useHandCursor: true });
-
-         laws_container.setSize(button_economy_bg.width, button_economy_bg.height); // définit la zone cliquable
-        laws_container.setInteractive({ useHandCursor: true });
-
-        diplomacy_container.setSize(button_economy_bg.width, button_economy_bg.height); // définit la zone cliquable
-        diplomacy_container.setInteractive({ useHandCursor: true }); 
-
-         court_container.setSize(button_economy_bg.width, button_economy_bg.height); // définit la zone cliquable
-        court_container.setInteractive({ useHandCursor: true });
-
-         setting_container.setSize(button_economy_bg.width, button_economy_bg.height); // définit la zone cliquable
-        setting_container.setInteractive({ useHandCursor: true });
-
-
-economy_container.on('pointerdown', () => {
-    console.log("Bouton cliqué !");
-});
-        
-
-*/
-      
 
         bg.setScale(
     this.scale.width / bg.width,
@@ -169,31 +134,21 @@ economy_container.on('pointerdown', () => {
   );
   bg.setDepth(-1);
 
-        //this.background = this.add.tileSprite(0, 0, 358, 190, 'background');
+    gameState.personnages.push(new Character('Arthur',"noblesse" , ['diplomate']));
+       gameState.personnages.push(new Character('Lancelot', "peuple", ['assassin', 'loyal']));
+       gameState.personnages.push(new Character('Guenièvre', "clergé", ['influenceuse']));
 
-        //const logo = this.add.image(640, 200, 'logo');
+    Faction.findByName(gameState.factions, 'peuple').assignLeader(Character.findByName(gameState.personnages, 'Arthur'));
+    Faction.findByName(gameState.factions, 'noblesse').assignLeader(Character.findByName(gameState.personnages, 'Lancelot'));
+    Faction.findByName(gameState.factions, 'clergé').assignLeader(Character.findByName(gameState.personnages, 'Guenièvre'));
+        
+        
+        
+        
 
-        //const ship = this.add.sprite(640, 360, 'ship');
+        
 
-        /*ship.anims.create({
-            key: 'fly',
-            frames: this.anims.generateFrameNumbers('ship', { start: 0, end: 2 }),
-            frameRate: 15,
-            repeat: -1
-        });
-
-        ship.play('fly');
-
-        this.tweens.add({
-            targets: logo,
-            y: 400,
-            duration: 1500,
-            ease: 'Sine.inOut',
-            yoyo: true,
-            loop: -1
-        });
-
-        */
+      
     }
     
 
