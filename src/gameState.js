@@ -14,6 +14,9 @@ import Faction from './Faction.js';
     new Faction('noblesse', null, 50),
     new Faction('clergé', null, 50),
     new Faction('cour', null, 50),
+    new Faction('tarska', null, 50),
+    new Faction('calden', null, 50),
+    new Faction('elsden', null, 50),
     ],
 
     economie : {

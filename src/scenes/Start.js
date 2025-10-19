@@ -107,11 +107,19 @@ export class Start extends Phaser.Scene {
 
     create() {
  
-    let dayText = this.add.bitmapText(230, 5, 'okok', 'J:1', 16);
+     this.dayText = this.add.bitmapText(236, 6, 'okok', 'J:1', 16).setDepth(1).setTint(0x000000);
 
-      let showDay = new Button(this, 272, 2, 'day_rest', 'day_hover', 'day_pressed', () => this.dayText.setText('J:' + gameState.jour), this.dayText);
+    // bouton qui met à jour l'affichage du jour
+    let showDay = new Button(this, 224, 2, 'day_rest', 'day_hover', 'day_pressed', () => {
+        console.log("Jour actuel :", gameState.jour);
+        this.dayText.setText('J:' + gameState.jour);
+    }).setDepth(0);
 
-        let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {nextDay(gameState)});
+
+        let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
+            {nextDay(gameState);
+            this.dayText.setText('J:' + gameState.jour);
+        });
         let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printCharacters(gameState.personnages)});
         let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions)});
         let tempButtonc = new Button(this, 134, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
@@ -134,14 +142,23 @@ export class Start extends Phaser.Scene {
   );
   bg.setDepth(-1);
 
-    gameState.personnages.push(new Character('Arthur',"noblesse" , ['diplomate']));
-       gameState.personnages.push(new Character('Lancelot', "peuple", ['assassin', 'loyal']));
-       gameState.personnages.push(new Character('Guenièvre', "clergé", ['influenceuse']));
+    gameState.personnages.push(new Character('Edmond de Virebois',"noblesse" , ['diplomate']));
+       gameState.personnages.push(new Character('Pierre', "peuple", ['assassin', 'loyal']));
+       gameState.personnages.push(new Character('Légat Marnus', "clergé", ['influenceuse']));
+       gameState.personnages.push(new Character('Chancelier Lucien', "cour", ['influenceuse']));
+       gameState.personnages.push(new Character('Khan Murad', "tarska", ['influenceuse']));
+       
+      
+       gameState.personnages.push(new Character('maric Dorne', "calden", ['influenceuse']));
+       gameState.personnages.push(new Character('Perceval de Hautecine', "elsden", ['influenceuse']));
 
-    Faction.findByName(gameState.factions, 'peuple').assignLeader(Character.findByName(gameState.personnages, 'Arthur'));
-    Faction.findByName(gameState.factions, 'noblesse').assignLeader(Character.findByName(gameState.personnages, 'Lancelot'));
-    Faction.findByName(gameState.factions, 'clergé').assignLeader(Character.findByName(gameState.personnages, 'Guenièvre'));
-        
+    Faction.findByName(gameState.factions, 'peuple').assignLeader(Character.findByName(gameState.personnages, 'Pierre'));
+    Faction.findByName(gameState.factions, 'noblesse').assignLeader(Character.findByName(gameState.personnages, 'Edmond de Virebois'));
+    Faction.findByName(gameState.factions, 'clergé').assignLeader(Character.findByName(gameState.personnages, 'Légat Marnus'));
+    Faction.findByName(gameState.factions, 'cour').assignLeader(Character.findByName(gameState.personnages, 'Chancelier Lucien'));
+    Faction.findByName(gameState.factions, 'tarska').assignLeader(Character.findByName(gameState.personnages, 'Khan Murad'));
+    Faction.findByName(gameState.factions, 'calden').assignLeader(Character.findByName(gameState.personnages, 'maric Dorne'));
+    Faction.findByName(gameState.factions, 'elsden').assignLeader(Character.findByName(gameState.personnages, 'Perceval de Hautecine'));
         
         
         

@@ -8,9 +8,5 @@ export default function nextDay(gameState) {
     gameState.personnages.push(Character.randomCharacter());
     gameState.personnages.push(Character.randomCharacter('noblesse'));
 
-
-    // a faire créer un nouveau personnage  
-
-
     console.log("Jour actuel :", gameState.jour);
 }
