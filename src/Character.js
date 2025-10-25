@@ -3,7 +3,7 @@ import gameState  from "./gameState.js";
 import Faction from "./Faction.js";
 
 export default class Character{
-    constructor(name, faction, traits = []) {
+    constructor(name, faction, traits = [], influence = 30){ 
         this.name = name;
         this.faction = Faction.findByName(gameState.factions,faction);
         this.traits = traits;       
@@ -11,6 +11,7 @@ export default class Character{
         this.arrested = false
         this.relation = 50;      
         this.actionsPossibles = []; 
+        this.influence = influence;
     }
 
      static findByName(list, name) {

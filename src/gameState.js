@@ -3,6 +3,9 @@ import Faction from './Faction.js';
 
 
  const gameState = {
+    
+ 
+
     jour: 1,
     argent: 1000,
     lois: {},

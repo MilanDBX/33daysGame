@@ -76,8 +76,31 @@ export class Start extends Phaser.Scene {
 
     preload() {
 
+         this.load.spritesheet('doorsheet', 'assets/door_spritesheet.png', {
+    frameWidth: 48,
+    frameHeight: 32
+  });
+
+  this.load.spritesheet('candlesheet', 'assets/candle_spritesheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+        
+
+         this.load.spritesheet('lustresheet', 'assets/lustre_spritesheet.png', {
+    frameWidth: 64,
+    frameHeight: 64
+  });
+
+   this.load.spritesheet('basepnjsheet', 'assets/basepnj_spritesheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+
+
         this.load.bitmapFont('okok', 'assets/fonts/okok_0.png', 'assets/fonts/okok.fnt');
 
+        
 
         this.load.image('joursuivant_rest', 'assets/UI/buttons/button_rest.png');
         this.load.image('joursuivant_hover', 'assets/UI/buttons/button_hover.png');
@@ -106,6 +129,66 @@ export class Start extends Phaser.Scene {
     }
 
     create() {
+
+        this.anims.create({
+    key: 'open_door',
+    frames: this.anims.generateFrameNumbers('doorsheet', { start: 0, end: 3 }),
+    frameRate: 20,
+    repeat: 0
+  });
+
+  this.anims.create({
+    key: 'close_door',
+    frames: this.anims.generateFrameNumbers('doorsheet', { start: 3, end: 0 }),
+    frameRate: 20,
+    repeat: 0
+  });
+
+  this.anims.create({
+    key: 'light_candle',
+    frames: this.anims.generateFrameNumbers('candlesheet', { start: 0, end: 3 }),
+    frameRate: 0.5,
+    repeat: -1
+  });
+  this.anims.create({
+    key: 'light_candle_alt',
+    frames: this.anims.generateFrameNumbers('candlesheet', { start: 2, end: 0 }),
+    frameRate: 0.5,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'light_lustre',
+    frames: this.anims.generateFrameNumbers('lustresheet', { start: 0, end: 3 }),
+    frameRate: 0.5,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'move_pnj',
+    frames: this.anims.generateFrameNumbers('basepnjsheet', { start: 0, end: 6 }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  // Création du sprite
+  const door = this.add.sprite(285, 126, 'doorsheet',0)
+  const candle1 = this.add.sprite(64, 113, 'candlesheet',0)
+  const candle2 = this.add.sprite(112, 113, 'candlesheet',0)
+  const candle3 = this.add.sprite(162, 113, 'candlesheet',0)
+  const candle4 = this.add.sprite(210, 113, 'candlesheet',0)
+  const lustre = this.add.sprite(140, 30, 'lustresheet',0)
+
+  const basepnj = this.add.sprite(285, 126, 'basepnjsheet',0)
+  basepnj.scaleX = -1;
+
+  candle1.play('light_candle');
+  candle2.play('light_candle_alt');
+  candle3.play('light_candle');
+  candle4.play('light_candle_alt');
+  lustre.play('light_lustre');
+basepnj.play('move_pnj');
+  
  
      this.dayText = this.add.bitmapText(236, 6, 'okok', 'J:1', 16).setDepth(1).setTint(0x000000);
 
@@ -119,8 +202,12 @@ export class Start extends Phaser.Scene {
         let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
             {nextDay(gameState);
             this.dayText.setText('J:' + gameState.jour);
+             door.play('open_door');
+             
         });
-        let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printCharacters(gameState.personnages)});
+        let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => { printCharacters(gameState.personnages);  
+            door.play('close_door');
+        });
         let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions)});
         let tempButtonc = new Button(this, 134, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
          let tempButtond = new Button(this, 178, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1)});
