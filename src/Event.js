@@ -1,7 +1,57 @@
+import Door from './Door.js';
+
 export default class Event {
-    constructor(character, eventData) {
+
+    
+    preload() {
+  this.load.spritesheet('basepnjsheet', 'assets/basepnj_spritesheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+}
+    constructor(character, eventData,door) {
+        this.door = door;
         this.character = character;
         this.eventData = eventData;
+        this.scene = door.scene;
+    }
+
+    playEvent(){
+        this.door.open();
+        
+         this.scene.time.delayedCall(200, () => {
+        this.basepnj = this.scene.add.sprite(284, 126, this.character.spriteSheet,0)
+        this.basepnj.scaleX = -1;
+        this.basepnj.play('move_pnj');
+
+      this.scene.tweens.add({
+    targets: this.basepnj,
+    x: 235,       // destination
+    duration: 2000, // en ms
+    ease: 'Linear', // type d’animation
+    yoyo: false,     // revient à la position initiale
+    repeat: 0 ,
+    onComplete: () => {
+        
+        this.basepnj.stop();      // arrêter l'animation
+        this.basepnj.setFrame(0); // revenir à la frame de repos
+    }
+    
+});
+ 
+    });
+       
+        
+        
+        this.scene.time.delayedCall(1000, () => {
+      this.door.close();
+    });
+
+
+
+    
+    console.log("Event played");
+        
     }
 
     playDialogue() {

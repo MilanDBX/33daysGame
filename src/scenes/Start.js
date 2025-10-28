@@ -8,6 +8,9 @@ import  nextDay  from '../nextDay.js';
 import {printCharacters} from '../Character.js';
 import {printValues} from '../economy.js';
 import {increaseValue} from '../economy.js';
+import Door from '../Door.js';
+import Event from '../Event.js';
+import Chat from '../chat.js';
 
 
 
@@ -76,7 +79,7 @@ export class Start extends Phaser.Scene {
 
     preload() {
 
-         this.load.spritesheet('doorsheet', 'assets/door_spritesheet.png', {
+    this.load.spritesheet('doorsheet', 'assets/door_spritesheet.png', {
     frameWidth: 48,
     frameHeight: 32
   });
@@ -99,6 +102,8 @@ export class Start extends Phaser.Scene {
 
 
         this.load.bitmapFont('okok', 'assets/fonts/okok_0.png', 'assets/fonts/okok.fnt');
+        this.load.bitmapFont('ghotic', 'assets/fonts/ghotic_0.png', 'assets/fonts/ghotic.fnt');
+        this.load.bitmapFont('senior', 'assets/fonts/senior_0.png', 'assets/fonts/senior.fnt');
 
         
 
@@ -130,19 +135,10 @@ export class Start extends Phaser.Scene {
 
     create() {
 
-        this.anims.create({
-    key: 'open_door',
-    frames: this.anims.generateFrameNumbers('doorsheet', { start: 0, end: 3 }),
-    frameRate: 20,
-    repeat: 0
-  });
-
-  this.anims.create({
-    key: 'close_door',
-    frames: this.anims.generateFrameNumbers('doorsheet', { start: 3, end: 0 }),
-    frameRate: 20,
-    repeat: 0
-  });
+      Door.registerAnimations(this);
+      const door = new Door(this, 285, 126);
+      
+    
 
   this.anims.create({
     key: 'light_candle',
@@ -172,22 +168,22 @@ export class Start extends Phaser.Scene {
   });
 
   // Création du sprite
-  const door = this.add.sprite(285, 126, 'doorsheet',0)
+  
   const candle1 = this.add.sprite(64, 113, 'candlesheet',0)
   const candle2 = this.add.sprite(112, 113, 'candlesheet',0)
   const candle3 = this.add.sprite(162, 113, 'candlesheet',0)
   const candle4 = this.add.sprite(210, 113, 'candlesheet',0)
   const lustre = this.add.sprite(140, 30, 'lustresheet',0)
 
-  const basepnj = this.add.sprite(285, 126, 'basepnjsheet',0)
-  basepnj.scaleX = -1;
+  
+  
 
   candle1.play('light_candle');
   candle2.play('light_candle_alt');
   candle3.play('light_candle');
   candle4.play('light_candle_alt');
   lustre.play('light_lustre');
-basepnj.play('move_pnj');
+
   
  
      this.dayText = this.add.bitmapText(236, 6, 'okok', 'J:1', 16).setDepth(1).setTint(0x000000);
@@ -202,20 +198,29 @@ basepnj.play('move_pnj');
         let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
             {nextDay(gameState);
             this.dayText.setText('J:' + gameState.jour);
-             door.play('open_door');
+             
              
         });
         let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => { printCharacters(gameState.personnages);  
-            door.play('close_door');
+            door.open();
         });
-        let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions)});
+        let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions);
+          door.close();
+        });
         let tempButtonc = new Button(this, 134, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
-         let tempButtond = new Button(this, 178, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1)});
+         let tempButtond = new Button(this, 178, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1);
+          eventoh.playEvent();
+         });
         let bg = this.add.image(0, 0, 'castle_bg').setOrigin(0, 0);
         this.add.image(137, 120, 'king');
 
-    this.button_economy = new UI(this, 12, 45, 'basic_UI','long_UI', 'economy_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_laws = new UI(this, 12, 67, 'basic_UI','long_UI', 'laws_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_economy = new UI(this, 12, 45, 'basic_UI','long_UI', 'economy_UI', () => {console.log("Bouton 1 cliqué !");
+      
+    }
+  ); 
+    this.button_laws = new UI(this, 12, 67, 'basic_UI','long_UI', 'laws_UI', () => {console.log("Bouton 1 cliqué !");
+      door.close();
+    }); 
     this.button_diplomacy = new UI(this, 12, 89, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
     this.button_court = new UI(this, 12, 111, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
     this.button_economy = new UI(this, 305, 12, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
@@ -247,9 +252,24 @@ basepnj.play('move_pnj');
     Faction.findByName(gameState.factions, 'calden').assignLeader(Character.findByName(gameState.personnages, 'maric Dorne'));
     Faction.findByName(gameState.factions, 'elsden').assignLeader(Character.findByName(gameState.personnages, 'Perceval de Hautecine'));
         
-        
+    const eventoh = new Event(Character.findByName(gameState.personnages, 'Pierre'),
+    {
+        dialogues: [
+            "Le peuple gronde dans les rues...",
+            "Des rumeurs de révolte se propagent parmi le peuple.",
+            "Les citoyens réclament justice et équité."
+        ]
+    },
+    door
+);
         
 
+this.text = new Chat(this, "Bienvenue, mon roi. \nQue vos decisions soient\nsages et justes pour le royaume.");
+this.text.showMessage();
+
+ const uiText = this.add.bitmapText(140, 10, 'senior', 'Texte net et lisible', 8)
+        .setOrigin(0.5, 0) // centre horizontalement
+        .setDepth(10);
         
 
       
@@ -259,5 +279,8 @@ basepnj.play('move_pnj');
     update() {
         
     }
+
+    
     
 }
+

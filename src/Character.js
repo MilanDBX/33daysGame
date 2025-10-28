@@ -3,7 +3,7 @@ import gameState  from "./gameState.js";
 import Faction from "./Faction.js";
 
 export default class Character{
-    constructor(name, faction, traits = [], influence = 30){ 
+    constructor(name, faction, traits = [], influence = 30,spriteSheet = 'basepnjsheet' ){ 
         this.name = name;
         this.faction = Faction.findByName(gameState.factions,faction);
         this.traits = traits;       
@@ -12,6 +12,7 @@ export default class Character{
         this.relation = 50;      
         this.actionsPossibles = []; 
         this.influence = influence;
+        this.spriteSheet = spriteSheet;
     }
 
      static findByName(list, name) {
