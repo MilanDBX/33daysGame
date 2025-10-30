@@ -6,7 +6,7 @@ export default class Chat{
 
  showMessage() 
  {
-this.text = this.scene.add.bitmapText(45, 50, 'senior', this.message,  8).setDepth(1);
+this.text = this.scene.add.bitmapText(330, 120, 'senior', this.message,  8).setDepth(1);
 
  }
 }

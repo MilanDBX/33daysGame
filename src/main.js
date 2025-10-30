@@ -5,10 +5,11 @@ import { Start } from './scenes/Start.js';
 const config = {
     type: Phaser.WEBGL,
     title: '33 Days',
-    description: 'Survive 33 days as the new king of Aslandia',
+    description: 'Survive 33 days as the new king of Ravelle',
     parent: 'game-container',
-    width: 320,
-    height: 180,
+    width: 640,
+    height: 360,
+    
     backgroundColor: '#000000',
     pixelArt: true,
     scene: [

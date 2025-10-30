@@ -25,7 +25,7 @@ export default class Door {
 
     constructor(scene, x, y, key = 'doorsheet', frame = 0) {
         this.scene = scene;
-        this.sprite = scene.add.sprite(x, y, key, frame);
+        this.sprite = scene.add.sprite(x, y, key, frame).setScale(2);
     }
 
     open() {

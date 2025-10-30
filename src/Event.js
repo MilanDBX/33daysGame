@@ -20,13 +20,13 @@ export default class Event {
         this.door.open();
         
          this.scene.time.delayedCall(200, () => {
-        this.basepnj = this.scene.add.sprite(284, 126, this.character.spriteSheet,0)
-        this.basepnj.scaleX = -1;
+        this.basepnj = this.scene.add.sprite(568, 252, this.character.spriteSheet,0).setScale(2);
+        this.basepnj.scaleX = -2;
         this.basepnj.play('move_pnj');
 
       this.scene.tweens.add({
     targets: this.basepnj,
-    x: 235,       // destination
+    x: 470,       // destination
     duration: 2000, // en ms
     ease: 'Linear', // type d’animation
     yoyo: false,     // revient à la position initiale

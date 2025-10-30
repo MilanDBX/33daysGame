@@ -14,7 +14,7 @@ export default class Button extends Phaser.GameObjects.Sprite {
         this.callback = callback;
 
         this.setInteractive({ useHandCursor: true });
-        scene.add.existing(this).setOrigin(0, 0);
+        scene.add.existing(this).setOrigin(0, 0).setScale(2);;
 
         // Ajouter le texte ou icône au-dessus du bouton
         if (interior) {

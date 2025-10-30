@@ -21,8 +21,8 @@ class UI extends Phaser.GameObjects.Container {
 
         this.scene = scene;
 
-        this.bg = scene.add.image(0, 0, bgKey)
-        this.logo = scene.add.image(0, 0, logoKey)
+        this.bg = scene.add.image(0, 0, bgKey).setScale(2);
+        this.logo = scene.add.image(0, 0, logoKey).setScale(2);
 
         this.add([this.bg, this.logo]);
 
@@ -135,8 +135,11 @@ export class Start extends Phaser.Scene {
 
     create() {
 
+       
+
+
       Door.registerAnimations(this);
-      const door = new Door(this, 285, 126);
+      const door = new Door(this, 570, 252);
       
     
 
@@ -169,11 +172,11 @@ export class Start extends Phaser.Scene {
 
   // Création du sprite
   
-  const candle1 = this.add.sprite(64, 113, 'candlesheet',0)
-  const candle2 = this.add.sprite(112, 113, 'candlesheet',0)
-  const candle3 = this.add.sprite(162, 113, 'candlesheet',0)
-  const candle4 = this.add.sprite(210, 113, 'candlesheet',0)
-  const lustre = this.add.sprite(140, 30, 'lustresheet',0)
+  const candle1 = this.add.sprite(128, 226, 'candlesheet',0).setScale(2);
+  const candle2 = this.add.sprite(224, 226, 'candlesheet',0).setScale(2);
+  const candle3 = this.add.sprite(324, 226, 'candlesheet',0).setScale(2);
+  const candle4 = this.add.sprite(420, 226, 'candlesheet',0).setScale(2);
+  const lustre = this.add.sprite(280, 60, 'lustresheet',0).setScale(2);
 
   
   
@@ -186,44 +189,44 @@ export class Start extends Phaser.Scene {
 
   
  
-     this.dayText = this.add.bitmapText(236, 6, 'okok', 'J:1', 16).setDepth(1).setTint(0x000000);
+     this.dayText = this.add.bitmapText(472, 12, 'okok', 'J:1', 16).setDepth(1).setTint(0x000000).setScale(2);;
 
     // bouton qui met à jour l'affichage du jour
-    let showDay = new Button(this, 224, 2, 'day_rest', 'day_hover', 'day_pressed', () => {
+    let showDay = new Button(this, 448, 4, 'day_rest', 'day_hover', 'day_pressed', () => {
         console.log("Jour actuel :", gameState.jour);
         this.dayText.setText('J:' + gameState.jour);
     }).setDepth(0);
 
 
-        let dayButton = new Button(this, 2, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
+        let dayButton = new Button(this, 4, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
             {nextDay(gameState);
             this.dayText.setText('J:' + gameState.jour);
              
              
         });
-        let tempButtona = new Button(this, 46, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => { printCharacters(gameState.personnages);  
+        let tempButtona = new Button(this, 92, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => { printCharacters(gameState.personnages);  
             door.open();
         });
-        let tempButtonb = new Button(this, 90, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions);
+        let tempButtonb = new Button(this, 180, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printFactions(gameState.factions);
           door.close();
         });
-        let tempButtonc = new Button(this, 134, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
-         let tempButtond = new Button(this, 178, 2, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1);
+        let tempButtonc = new Button(this, 268, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {printValues(gameState)});
+         let tempButtond = new Button(this, 356, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1);
           eventoh.playEvent();
          });
         let bg = this.add.image(0, 0, 'castle_bg').setOrigin(0, 0);
-        this.add.image(137, 120, 'king');
+        this.add.image(274, 240, 'king').setScale(2);;
 
-    this.button_economy = new UI(this, 12, 45, 'basic_UI','long_UI', 'economy_UI', () => {console.log("Bouton 1 cliqué !");
+    this.button_economy = new UI(this, 24, 90, 'basic_UI','long_UI', 'economy_UI', () => {console.log("Bouton 1 cliqué !");
       
     }
   ); 
-    this.button_laws = new UI(this, 12, 67, 'basic_UI','long_UI', 'laws_UI', () => {console.log("Bouton 1 cliqué !");
+    this.button_laws = new UI(this, 24, 134, 'basic_UI','long_UI', 'laws_UI', () => {console.log("Bouton 1 cliqué !");
       door.close();
     }); 
-    this.button_diplomacy = new UI(this, 12, 89, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_court = new UI(this, 12, 111, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
-    this.button_economy = new UI(this, 305, 12, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_diplomacy = new UI(this, 24, 178, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_court = new UI(this, 24, 222, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
+    this.button_economy = new UI(this, 610, 24, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
 
 
 
@@ -234,7 +237,7 @@ export class Start extends Phaser.Scene {
   );
   bg.setDepth(-1);
 
-    gameState.personnages.push(new Character('Edmond de Virebois',"noblesse" , ['diplomate']));
+       gameState.personnages.push(new Character('Edmond de Virebois',"noblesse" , ['diplomate']));
        gameState.personnages.push(new Character('Pierre', "peuple", ['assassin', 'loyal']));
        gameState.personnages.push(new Character('Légat Marnus', "clergé", ['influenceuse']));
        gameState.personnages.push(new Character('Chancelier Lucien', "cour", ['influenceuse']));
@@ -267,9 +270,11 @@ export class Start extends Phaser.Scene {
 this.text = new Chat(this, "Bienvenue, mon roi. \nQue vos decisions soient\nsages et justes pour le royaume.");
 this.text.showMessage();
 
- const uiText = this.add.bitmapText(140, 10, 'senior', 'Texte net et lisible', 8)
-        .setOrigin(0.5, 0) // centre horizontalement
-        .setDepth(10);
+
+
+
+        
+        
         
 
       

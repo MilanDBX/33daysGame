@@ -9,6 +9,7 @@ import Faction from './Faction.js';
     jour: 1,
     argent: 1000,
     lois: {},
+    dayEvents: [],
     
     personnages: [
     ],
