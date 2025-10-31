@@ -268,7 +268,7 @@ export class Start extends Phaser.Scene {
         
 
 this.text = new Chat(this, "Bienvenue, mon roi. \nQue vos decisions soient\nsages et justes pour le royaume.");
-this.text.showMessage();
+//this.text.showMessage();
 
 
 

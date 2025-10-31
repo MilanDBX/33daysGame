@@ -1,7 +1,7 @@
 import gameState from "./gameState.js";
 import Character from "./Character.js";
 import Faction from "./Faction.js";
-import gameState from "./gameState.js";
+
 
 export default function nextDay(gameState) {
     
