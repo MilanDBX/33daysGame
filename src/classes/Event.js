@@ -1,0 +1,183 @@
+import Door from './Door.js';
+import Chat from './Chat.js';
+import { eventDatabase } from '../data/eventData.js';
+import nextEvent from '../functions/nextEvent.js';
+import gameState from '../data/gameState.js';
+
+
+
+
+export default class Event {
+
+    
+    
+    constructor(character, eventData,door) {
+        this.door = door;
+        this.character = character;
+
+        if (typeof eventData === 'string') {
+   this.eventData = eventDatabase[eventData];
+}
+else {
+   this.eventData = eventData;
+}
+
+        this.scene = door.scene;
+        this.message = this.eventData.dialogue;
+
+       
+
+        console.log("Event created:", this.message);
+    }
+
+    playEvent() {
+  this.door.open();
+
+  // 1️⃣ Le PNJ apparaît et marche
+  this.scene.time.delayedCall(200, () => {
+    this.basepnj = this.scene.add.sprite(568, 252, this.character.spriteSheet, 0).setScale(2);
+    this.basepnj.scaleX = -2;
+    this.basepnj.play(this.character.spriteSheet);
+
+    this.scene.tweens.add({
+      targets: this.basepnj,
+      x: 490,
+      duration: 1800,
+      ease: 'Linear',
+      onComplete: () => {
+        this.basepnj.stop();
+        this.basepnj.setFrame(0);
+      }
+    });
+  });
+
+  this.scene.time.delayedCall(1000, () => {this.door.close();});
+
+
+
+  // 2️⃣ Apparition de la bulle + texte
+  this.scene.time.delayedCall(2200, () => {
+    this.bubble = this.scene.add
+      .sprite(370, 150, 'bubble', 0)
+      .setScale(2)
+      .setAlpha(1)
+      .setInteractive({ useHandCursor: true });
+
+    // Affiche le message
+    this.text = new Chat(this.scene, this.message);
+    this.text.showMessage();
+
+    // 3️⃣ Quand on clique sur la bulle → on lance la suite
+    this.bubble.on('pointerdown', () => {
+      console.log("Bubble cliquée !");
+      if (this.text.check()){
+      
+      this.nextPart();
+      }
+      else {
+        this.text.destroyer();
+        console.log(this.text.index + " / " + this.text.length);
+        this.text.index++;
+        
+        this.text.showMessage();
+      }
+      
+    });
+  });
+
+  console.log("Event played");
+}
+
+
+// 🧩 La suite de l’événement
+nextPart() {
+  // Supprime la bulle et le texte
+  if (this.bubble) {
+    this.bubble.destroy();
+    this.bubble = null;
+  }
+
+  if (this.text) {
+    this.text.destroyer();
+  }
+
+
+  
+
+  // Le PNJ repart
+  this.basepnj.scaleX = 2;
+  this.basepnj.play(this.character.spriteSheet);
+
+   this.scene.time.delayedCall(1100, () => {this.door.open();});
+   this.scene.time.delayedCall(1720, () => {this.door.close();});
+
+  this.scene.tweens.add({
+    targets: this.basepnj,
+    x: 575,
+    duration: 1800,
+    ease: 'Linear',
+    onComplete: () => {
+      this.basepnj.destroy();
+      this.basepnj = null;
+
+      this.scene.time.delayedCall(1000, () => {nextEvent(gameState);});
+    }
+  });
+
+  // Porte qui s’ouvre et se referme
+  
+}
+
+    playDialogue() {
+        return this.eventData.dialogues[Math.floor(Math.random() * this.eventData.dialogues.length)];
+    }
+
+    applyEffects() {
+        if (this.eventData.effects) {
+            // Appliquer les effets sur les stats
+            if (this.eventData.effects.stats) {
+                Object.entries(this.eventData.effects.stats).forEach(([stat, value]) => {
+                    this.character[stat] += value;
+                });
+            }
+            
+            // Gérer l'inventaire
+            if (this.eventData.effects.inventory) {
+                if (this.eventData.effects.inventory.add) {
+                    this.character.addToInventory(this.eventData.effects.inventory.item);
+                }
+            }
+        }
+    }
+
+    playAnimations() {
+        return this.eventData.animations;
+    }
+
+    getSound() {
+        return this.eventData.sound;
+    }
+}
+
+export function triggerEvent(gameState, event) {
+    // Jouer le dialogue
+    const dialogue = event.playDialogue();
+    gameState.displayDialogue(dialogue);
+
+    // Appliquer les effets
+    event.applyEffects();
+
+    // Jouer les animations
+    const animations = event.playAnimations();
+    if (animations) {
+        Object.entries(animations).forEach(([target, animationName]) => {
+            gameState.playAnimation(target, animationName);
+        });
+    }
+
+    // Jouer le son
+    const sound = event.getSound();
+    if (sound) {
+        gameState.playSound(sound);
+    }
+}

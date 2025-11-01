@@ -1,5 +1,5 @@
-import { nameList } from "./nameList.js";
-import gameState  from "./gameState.js";
+import { nameList } from "../data/nameList.js";
+import gameState  from "../data/gameState.js";
 import Faction from "./Faction.js";
 
 export default class Character{
@@ -71,6 +71,32 @@ export default class Character{
 
 printInsideCharacter(){
     console.log(`Nom: ${this.name} | Faction: ${this.faction} | Traits: ${this.traits.join(', ')} | Relation: ${this.relation} | Statut: ${this.status ? 'Vivant' : 'Mort'} | Arresté: ${this.arrested ? 'Oui' : 'Non'}`);
+}
+
+static getRandomCharacter(filter = null) {
+  // on récupère tous les personnages existants
+  let characters = gameState.personnages;
+
+  // si le tableau est vide
+  if (!characters || characters.length === 0) {
+    console.warn("⚠️ Aucun personnage dans gameState.personnages !");
+    return null;
+  }
+
+  // filtre optionnel : par exemple ignorer les morts ou arrêtés
+  if (filter && typeof filter === "function") {
+    characters = characters.filter(filter);
+  }
+
+  // si plus aucun personnage après filtrage
+  if (characters.length === 0) {
+    console.warn("⚠️ Aucun personnage ne correspond au filtre !");
+    return null;
+  }
+
+  // sélection aléatoire
+  const randomIndex = Math.floor(Math.random() * characters.length);
+  return characters[randomIndex];
 }
 
     

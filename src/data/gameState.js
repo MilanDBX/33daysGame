@@ -1,15 +1,16 @@
-import Character from './Character.js';
-import Faction from './Faction.js';
+import Character from '../classes/Character.js';
+import Faction from '../classes/Faction.js';
 
 
  const gameState = {
     
  
 
-    jour: 1,
+    jour: 0,
     argent: 1000,
     lois: {},
     dayEvents: [],
+    eventIndex: 0,
     
     personnages: [
     ],
