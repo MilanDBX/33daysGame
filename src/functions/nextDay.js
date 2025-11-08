@@ -12,8 +12,8 @@ export default function nextDay(scene,gameState, door) {
     const possibleEvents = [];
 
     gameState.jour += 1;
-    gameState.personnages.push(Character.randomCharacter());
-    gameState.personnages.push(Character.randomCharacter('noblesse'));
+    //gameState.personnages.push(Character.randomCharacter());
+    //gameState.personnages.push(Character.randomCharacter('noblesse'));
 
     console.log("Jour actuel :", gameState.jour);
 
