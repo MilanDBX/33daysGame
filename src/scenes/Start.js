@@ -158,14 +158,14 @@ export class Start extends Phaser.Scene {
   this.anims.create({
     key: 'basepnjsheet',
     frames: this.anims.generateFrameNumbers('basepnjsheet', { start: 0, end: 6 }),
-    frameRate: 5,
+    frameRate: 7.5,
     repeat: -1
   });
 
   this.anims.create({
     key: 'secondpnjsheet',
     frames: this.anims.generateFrameNumbers('secondpnjsheet', { start: 0, end: 6 }),
-    frameRate: 5,
+    frameRate: 7.5,
     repeat: -1
   });
 
@@ -200,7 +200,7 @@ export class Start extends Phaser.Scene {
 
 
         let dayButton = new Button(this, 4, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
-            {nextDay(gameState, door);
+            {nextDay(this,gameState, door);
             this.dayText.setText('j:' + gameState.jour);
              
              
@@ -260,8 +260,7 @@ export class Start extends Phaser.Scene {
     Faction.findByName(gameState.factions, 'calden').assignLeader(Character.findByName(gameState.personnages, 'maric Dorne'));
     Faction.findByName(gameState.factions, 'elsden').assignLeader(Character.findByName(gameState.personnages, 'Perceval de Hautecine'));
         
-    const eventoh = new Event(Character.findByName(gameState.personnages, 'Edmond de Virebois'), "messenger_welcome", door);
-    const eventah = new Event(Character.findByName(gameState.personnages, 'Pierre'), "noble_angry", door);
+   
 
           nextDay(this,gameState, door);
             this.dayText.setText('j:' + gameState.jour);
