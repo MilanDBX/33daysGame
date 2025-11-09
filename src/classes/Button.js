@@ -21,12 +21,11 @@ export default class Button extends Phaser.GameObjects.Sprite {
             this.interior = interior;
 
             // Ajouter à la scène si ce n'est pas déjà fait
-            if (!interior.scene) scene.add.existing(interior);
-
-            // Centrer l'intérieur sur le bouton
-            this.interior.setOrigin(0.5);
-            this.interior.x = this.x + this.width / 2;
-            this.interior.y = this.y + this.height / 2;
+            this.interior = scene.add.image(
+          x + this.width / 2 - 1,
+          y + this.height / 2 - 4,
+          interior
+        ).setOrigin(0).setDepth(this.depth + 1).setScale(2);
         }
 
         // Événements du bouton

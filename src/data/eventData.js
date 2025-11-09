@@ -151,9 +151,10 @@ export const eventDatabase = {
     id: 'lore_old_fort_restoration',
     dialogue: "La reconstruction du vieux fort a commencé. /l Ce bastion stratégique renforcera nos défenses. /l Les travaux emploient de nombreux artisans et soldats. /p Un chantier d'importance majeure."
   },
+  //hereee
   lore_merchant_guild_rumor: {
     id: 'lore_merchant_guild_rumor',
-    dialogue: "La guilde des marchands murmure sur de possibles manœuvres pour prendre le contrôle du marché noir. /l Cela pourrait bouleverser les équilibres commerciaux. /l La cour garde un œil sur ces activités. /p La situation mérite attention."
+    dialogue: "La guilde des marchands murmure sur de possibles manoeuvres pour prendre le contrôle du marché noir. /l  Cela pourrait bouleverser les équilibres commerciaux. La cour garde un oeil sur ces activités.  La situation mérite attention."
   },
   lore_military_recruits: {
     id: 'lore_military_recruits',

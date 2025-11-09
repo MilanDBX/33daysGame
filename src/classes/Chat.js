@@ -1,6 +1,6 @@
 export default class Chat{
     constructor(scene,message) {
-        this.message = Chat.formatText(message, 22,6);
+        this.message = Chat.formatText(message, 23,6);
         this.index = 0; 
         this.length = this.message.length;
         this.scene = scene;
@@ -12,7 +12,7 @@ export default class Chat{
  showMessage() 
  {
 
-this.text = this.scene.add.bitmapText(282, 94, 'okok', '',  16).setDepth(1).setTint('#000000');
+this.text = this.scene.add.bitmapText(274, 94, 'okok', '',  16).setDepth(1).setTint('#000000');
 Chat.typeText(this.scene,this.text, this.message[this.index],18);
 
  }
@@ -80,59 +80,51 @@ Chat.typeText(this.scene,this.text, this.message[this.index],18);
 
 
 static formatText(text, maxLength = 22, maxLinesPerPage = 6) {
-    // 1️⃣ Supprime les accents
+  // 1️⃣ Nettoyage
+  let normalizedText = text.replace(/[’‘]/g, "'");
+  normalizedText = normalizedText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-     let normalizedText = text.replace(/[’‘]/g, "'");
-    normalizedText = normalizedText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const words = normalizedText.split(' ');
+  const pages = [];
+  let currentPage = [];
+  let line = '';
 
-    // 2️⃣ Prépare les structures
-    const words = normalizedText.split(' ');
-    const pages = [];
-    let currentPage = [];
-    let line = '';
-
-    for (let word of words) {
-
-        // 🧩 Si le mot est une commande spéciale :
-        if (word === '/l') {
-            // force un saut de ligne
-            currentPage.push(line.trim());
-            line = '';
-            continue;
-        }
-
-        if (word === '/p') {
-            // force un saut de page
-            if (line.trim().length > 0) currentPage.push(line.trim());
-            if (currentPage.length > 0) pages.push(currentPage.join('\n'));
-            currentPage = [];
-            line = '';
-            continue;
-        }
-
-        // 💬 Comportement normal : ajout mot par mot
-        if ((line + word).length + 1 > maxLength) {
-            currentPage.push(line.trim());
-            line = '';
-        }
-        line += word + ' ';
-
-        // 📄 Si la page atteint la limite de lignes
-        if (currentPage.length >= maxLinesPerPage) {
-            pages.push(currentPage.join('\n'));
-            currentPage = [];
-            line = '';
-        }
+  for (let word of words) {
+    // Commandes spéciales
+    if (word === '/l') {
+      currentPage.push(line.trim());
+      line = '';
+      continue;
     }
 
-    // 4️⃣ Fin du texte : ajoute la dernière ligne restante
-    if (line.trim().length > 0) currentPage.push(line.trim());
-
-    // 5️⃣ Et la dernière page
-    if (currentPage.length > 0) {
-        pages.push(currentPage.join('\n'));
+    if (word === '/p') {
+      if (line.trim()) currentPage.push(line.trim());
+      if (currentPage.length) pages.push(currentPage.join('\n'));
+      currentPage = [];
+      line = '';
+      continue;
     }
 
-    return pages; // ["page1", "page2", ...]
+    // 🚨 Vérifie si le mot dépasse la longueur max
+    if ((line + word).length > maxLength) {
+      currentPage.push(line.trim());
+      line = word + ' ';
+    } else {
+      line += word + ' ';
+    }
+
+    // 🚨 Si on atteint la dernière ligne autorisée ET qu’on s’apprête à en rajouter une de plus → nouvelle page
+    if (currentPage.length === maxLinesPerPage) {
+      pages.push(currentPage.join('\n'));
+      currentPage = [];
+      //line = '';
+    }
+  }
+
+  // 🔚 Ajoute le reste
+  if (line.trim()) currentPage.push(line.trim());
+  if (currentPage.length) pages.push(currentPage.join('\n'));
+
+  return pages;
 }
 }

@@ -101,6 +101,10 @@ export class Start extends Phaser.Scene {
         this.load.image('day_hover', 'assets/UI/buttons/hoverState.png');
         this.load.image('day_pressed', 'assets/UI/buttons/pressedState.png');
 
+        this.load.image('base_rest', 'assets/UI/buttons/Round_base_UI.png');
+        this.load.image('base_hover', 'assets/UI/buttons/Round_hover_UI.png');
+        this.load.image('base_pressed', 'assets/UI/buttons/Round_pressed_UI.png');
+
         this.load.image('castle_bg', 'assets/props/background33days.png'); 
         this.load.image('king', 'assets/spritesheet/spriteSheetKing.png');
 
@@ -113,8 +117,11 @@ export class Start extends Phaser.Scene {
 
         //UI Background
         this.load.image('basic_UI', 'assets/UI/basic_UI.png');
+
         this.load.image('long_UI', 'assets/UI/long_UI.png');
         this.load.image('long_vertical_UI', 'assets/UI/long_vertical_UI.png');
+
+        
     
         this.load.image('bubble', 'assets/UI/bubble_UI.png');
 
@@ -190,21 +197,28 @@ export class Start extends Phaser.Scene {
 
   
  
-     this.dayText = this.add.bitmapText(474, 10, 'ghotic', 'j:1', 16).setDepth(1).setTint(0x000000).setScale(2);;
+     this.dayText = this.add.bitmapText(527, 10, 'ghotic', 'j:1', 16).setDepth(1).setTint(0x000000).setScale(2);
 
     // bouton qui met à jour l'affichage du jour
-    let showDay = new Button(this, 448, 4, 'day_rest', 'day_hover', 'day_pressed', () => {
+    let showDay = new Button(this, 497, 1, 'day_rest', 'day_hover', 'day_pressed', () => {
         console.log("Jour actuel :", gameState.jour);
         this.dayText.setText('j: ' + gameState.jour);
     }).setDepth(0);
 
 
-        let dayButton = new Button(this, 4, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
+    let dayButton = new Button(this, 4, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
             {nextDay(this,gameState, door);
             this.dayText.setText('j:' + gameState.jour);
-             
-             
-        });
+    });
+
+    let button_economy = new Button(this, 3, 57, 'base_rest', 'base_hover', 'base_pressed', () => {}, "economy_UI");
+    let button_laws = new Button(this, 3, 103, 'base_rest', 'base_hover', 'base_pressed', () => {}, "laws_UI");
+    let button_diplomacy = new Button(this, 3, 149, 'base_rest', 'base_hover', 'base_pressed', () => {}, "diplomacy_UI");
+    let button_court = new Button(this, 3, 195, 'base_rest', 'base_hover', 'base_pressed', () => {}, "court_UI");
+
+    let button_settings = new Button(this, 586, 1, 'base_rest', 'base_hover', 'base_pressed', () => {}, "setting_UI");
+
+        /*
         let tempButtona = new Button(this, 92, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => { printCharacters(gameState.personnages);  
             const eventuh = new Event(Character.getRandomCharacter(), EventHelper.getRandom(), door)
           eventuh.playEvent();
@@ -219,9 +233,12 @@ export class Start extends Phaser.Scene {
          let tempButtond = new Button(this, 356, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => {gameState.economie.nourriture = increaseValue(gameState.economie.nourriture, 1);
           eventoh.playEvent();
          });
+         */
+
         let bg = this.add.image(0, 0, 'castle_bg').setOrigin(0, 0);
         this.add.image(274, 240, 'king').setScale(2);;
-
+        
+/*
     this.button_economy = new UI(this, 24, 90, 'basic_UI','long_UI', 'economy_UI', () => {console.log("Bouton 1 cliqué !");
       
     }
@@ -232,7 +249,7 @@ export class Start extends Phaser.Scene {
     this.button_diplomacy = new UI(this, 24, 178, 'basic_UI','long_UI', 'diplomacy_UI', () => console.log("Bouton 1 cliqué !")); 
     this.button_court = new UI(this, 24, 222, 'basic_UI','long_UI', 'court_UI', () => console.log("Bouton 1 cliqué !")); 
     this.button_economy = new UI(this, 610, 24, 'basic_UI','long_UI', 'setting_UI', () => console.log("Bouton 1 cliqué !")); 
-
+*/
 
 
         bg.setScale(

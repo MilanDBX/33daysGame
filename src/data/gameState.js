@@ -11,6 +11,7 @@ import Faction from '../classes/Faction.js';
     lois: {},
     dayEvents: [],
     eventIndex: 0,
+    running : null,
     
     personnages: [
     ],

@@ -27,10 +27,11 @@ else {
 
        
 
-        console.log("Event created:", this.message);
+        
     }
 
     playEvent() {
+      gameState.running = true;
   this.door.open();
 
   // 1️⃣ Le PNJ apparaît et marche
@@ -69,14 +70,14 @@ else {
 
     // 3️⃣ Quand on clique sur la bulle → on lance la suite
     this.bubble.on('pointerdown', () => {
-      console.log("Bubble cliquée !");
+      
       if (this.text.check()){
       
       this.nextPart();
       }
       else {
         this.text.destroyer();
-        console.log(this.text.index + " / " + this.text.length);
+        
         this.text.index++;
         
         this.text.showMessage();
@@ -120,7 +121,9 @@ nextPart() {
       this.basepnj.destroy();
       this.basepnj = null;
 
-      this.scene.time.delayedCall(1000, () => {nextEvent(gameState);});
+      this.scene.time.delayedCall(1000, () => {
+        gameState.running = false;
+        nextEvent(gameState);});
     }
   });
 
@@ -150,34 +153,42 @@ nextPart() {
         }
     }
 
-    playAnimations() {
-        return this.eventData.animations;
+    stopEvent() {
+    // Supprime le PNJ s'il existe
+    if (this.basepnj) {
+        this.basepnj.destroy();
+        this.basepnj = null;
     }
 
-    getSound() {
-        return this.eventData.sound;
+    // Supprime la bulle si elle existe
+    if (this.bubble) {
+        this.bubble.destroy();
+        this.bubble = null;
     }
+
+    // Supprime le texte s'il existe
+    if (this.text) {
+        this.text.destroyer();
+        this.text = null;
+    }
+
+    // Annule toutes les delayedCall en cours liés à cette scène
+    this.scene.time.removeAllEvents();
+
+    // Supprime les tweens actifs sur le PNJ si nécessaire
+    this.scene.tweens.killTweensOf(this.basepnj);
+
+    // Enlève les listeners liés à la bulle pour éviter les interactions après arrêt
+    if (this.bubble && this.bubble.input) {
+        this.bubble.removeAllListeners();
+    }
+gameState.running = false;
+    console.log("Event stopped : ", this.eventData.id);
 }
 
-export function triggerEvent(gameState, event) {
-    // Jouer le dialogue
-    const dialogue = event.playDialogue();
-    gameState.displayDialogue(dialogue);
-
-    // Appliquer les effets
-    event.applyEffects();
-
-    // Jouer les animations
-    const animations = event.playAnimations();
-    if (animations) {
-        Object.entries(animations).forEach(([target, animationName]) => {
-            gameState.playAnimation(target, animationName);
-        });
-    }
-
-    // Jouer le son
-    const sound = event.getSound();
-    if (sound) {
-        gameState.playSound(sound);
-    }
+  
 }
+
+
+
+    
