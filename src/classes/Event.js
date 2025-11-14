@@ -35,7 +35,7 @@ else {
   this.door.open();
 
   // 1️⃣ Le PNJ apparaît et marche
-  this.scene.time.delayedCall(200, () => {
+  this.scene.time.delayedCall(200 * gameState.speed, () => {
     this.basepnj = this.scene.add.sprite(568, 252, this.character.spriteSheet, 0).setScale(2);
     this.basepnj.scaleX = -2;
     this.basepnj.play(this.character.spriteSheet);
@@ -43,7 +43,7 @@ else {
     this.scene.tweens.add({
       targets: this.basepnj,
       x: 490,
-      duration: 1800,
+      duration: 1800 * gameState.speed,
       ease: 'Linear',
       onComplete: () => {
         this.basepnj.stop();
@@ -52,17 +52,25 @@ else {
     });
   });
 
-  this.scene.time.delayedCall(1000, () => {this.door.close();});
+  this.scene.time.delayedCall(1000 * gameState.speed, () => {this.door.close();});
 
 
 
   // 2️⃣ Apparition de la bulle + texte
-  this.scene.time.delayedCall(2200, () => {
+  this.scene.time.delayedCall(2200 * gameState.speed, () => {
     this.bubble = this.scene.add
-      .sprite(370, 150, 'bubble', 0)
+      .sprite(370, 150, 'bubble_rest', 0)
       .setScale(2)
       .setAlpha(1)
       .setInteractive({ useHandCursor: true });
+      
+this.bubble.on('pointerover', () => {
+    this.bubble.setTexture('bubble_hover'); // Remplace par la texture de hover
+});
+this.bubble.on('pointerout', () => {
+    this.bubble.setTexture('bubble_rest');
+});
+
 
     // Affiche le message
     this.text = new Chat(this.scene, this.message);
@@ -109,19 +117,19 @@ nextPart() {
   this.basepnj.scaleX = 2;
   this.basepnj.play(this.character.spriteSheet);
 
-   this.scene.time.delayedCall(1100, () => {this.door.open();});
-   this.scene.time.delayedCall(1720, () => {this.door.close();});
+   this.scene.time.delayedCall(1100 * gameState.speed, () => {this.door.open();});
+   this.scene.time.delayedCall(1720 * gameState.speed, () => {this.door.close();});
 
   this.scene.tweens.add({
     targets: this.basepnj,
     x: 575,
-    duration: 1800,
+    duration: 1800 * gameState.speed,
     ease: 'Linear',
     onComplete: () => {
       this.basepnj.destroy();
       this.basepnj = null;
 
-      this.scene.time.delayedCall(1000, () => {
+      this.scene.time.delayedCall(1000 * gameState.speed, () => {
         gameState.running = false;
         nextEvent(gameState);});
     }

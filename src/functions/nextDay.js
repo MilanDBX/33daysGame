@@ -13,6 +13,9 @@ export default function nextDay(scene,gameState, door) {
     scene.cameras.main.once('camerafadeoutcomplete', () => {
     // Pause de 1000ms (1 seconde) en noir avant de rouvrir
     scene.time.delayedCall(400, () => {
+        gameState.jour += 1;
+        scene.dayText.setText('j:' + gameState.jour);
+
         if(gameState.running === true){
 
             console.log("was running")
@@ -25,7 +28,7 @@ export default function nextDay(scene,gameState, door) {
     
     const possibleEvents = [];
 
-    gameState.jour += 1;
+   
     //gameState.personnages.push(Character.randomCharacter());
     //gameState.personnages.push(Character.randomCharacter('noblesse'));
 
@@ -36,9 +39,9 @@ export default function nextDay(scene,gameState, door) {
     gameState.dayEvents = [];
     gameState.eventIndex = 0;
 
-    gameState.dayEvents.push(new Event (Character.randomCharacter(), EventHelper.getRandom(),door));
-    gameState.dayEvents.push(new Event (Character.randomCharacter(), EventHelper.getRandom(),door));
-    gameState.dayEvents.push(new Event (Character.randomCharacter(), EventHelper.getRandom(),door));
+    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
+    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
+    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
 
 
    scene.cameras.main.fadeOut(500);

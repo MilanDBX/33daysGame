@@ -83,6 +83,14 @@ export class Start extends Phaser.Scene {
     frameWidth: 32,
     frameHeight: 32
   });
+  this.load.spritesheet('basepnjgirlsheet', 'assets/spritesheet/basepnj_girl_sheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+   this.load.spritesheet('messengersheet', 'assets/spritesheet/messenger_sheett.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
 
   //image preload
 
@@ -123,7 +131,12 @@ export class Start extends Phaser.Scene {
 
         
     
-        this.load.image('bubble', 'assets/UI/bubble_UI.png');
+        this.load.image('bubble_rest', 'assets/UI/bubble_UI_rest.png');
+        this.load.image('bubble_hover', 'assets/UI/bubble_UI_hover.png');
+
+        //cursor 
+        this.load.image('cursor_base', 'assets/UI/cursor/base_cursor.png');
+        this.load.image('cursor_rest', 'assets/UI/cursor/click_cursor.png');
 
         //font preload 
 
@@ -145,34 +158,48 @@ export class Start extends Phaser.Scene {
   this.anims.create({
     key: 'light_candle',
     frames: this.anims.generateFrameNumbers('candlesheet', { start: 0, end: 3 }),
-    frameRate: 0.5,
+    frameRate: 0.5 * 1 / gameState.speed,
     repeat: -1
   });
   this.anims.create({
     key: 'light_candle_alt',
     frames: this.anims.generateFrameNumbers('candlesheet', { start: 2, end: 0 }),
-    frameRate: 0.5,
+    frameRate: 0.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'light_lustre',
     frames: this.anims.generateFrameNumbers('lustresheet', { start: 0, end: 3 }),
-    frameRate: 0.5,
+    frameRate: 0.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'basepnjsheet',
     frames: this.anims.generateFrameNumbers('basepnjsheet', { start: 0, end: 6 }),
-    frameRate: 7.5,
+    frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'secondpnjsheet',
     frames: this.anims.generateFrameNumbers('secondpnjsheet', { start: 0, end: 6 }),
-    frameRate: 7.5,
+    frameRate: 7.5 * 1 / gameState.speed,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'basepnjgirlsheet',
+    frames: this.anims.generateFrameNumbers('basepnjgirlsheet', { start: 0, end: 6 }),
+    frameRate: 7.5 * 1 / gameState.speed,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'messengersheet',
+    frames: this.anims.generateFrameNumbers('messengersheet', { start: 0, end: 6 }),
+    frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
 
@@ -195,7 +222,15 @@ export class Start extends Phaser.Scene {
   candle4.play('light_candle_alt');
   lustre.play('light_lustre');
 
+  //reglages souris 
   
+  this.input.setDefaultCursor('url(assets/UI/cursor/base_cursor.png), pointer');
+  this.input.mouse.disableContextMenu();
+
+
+
+
+
  
      this.dayText = this.add.bitmapText(527, 10, 'ghotic', 'j:1', 16).setDepth(1).setTint(0x000000).setScale(2);
 
@@ -208,7 +243,7 @@ export class Start extends Phaser.Scene {
 
     let dayButton = new Button(this, 4, 4, 'joursuivant_rest', 'joursuivant_hover', 'joursuivant_pressed', () => 
             {nextDay(this,gameState, door);
-            this.dayText.setText('j:' + gameState.jour);
+            
     });
 
     let button_economy = new Button(this, 3, 57, 'base_rest', 'base_hover', 'base_pressed', () => {}, "economy_UI");
@@ -260,14 +295,14 @@ export class Start extends Phaser.Scene {
   bg.setDepth(-1);
 
        gameState.personnages.push(new Character('Edmond de Virebois',"noblesse" , ['diplomate'],50,"secondpnjsheet"));
-       gameState.personnages.push(new Character('Pierre', "peuple", ['assassin', 'loyal']));
+       gameState.personnages.push(new Character('Pierre', "peuple", ['assassin', 'loyal'],50,"basepnjsheet"));
        gameState.personnages.push(new Character('Légat Marnus', "clergé", ['influenceuse']));
-       gameState.personnages.push(new Character('Chancelier Lucien', "cour", ['influenceuse']));
+       gameState.personnages.push(new Character('Chancelier Lucien', "cour", ['influenceuse'],50,"messengersheet"));
        gameState.personnages.push(new Character('Khan Murad', "tarska", ['influenceuse']));
        
       
        gameState.personnages.push(new Character('maric Dorne', "calden", ['influenceuse']));
-       gameState.personnages.push(new Character('Perceval de Hautecine', "elsden", ['influenceuse']));
+       gameState.personnages.push(new Character('Charlotte De Vieuxpays', "elsden", ['influenceuse'],50,"basepnjgirlsheet"));
 
     Faction.findByName(gameState.factions, 'peuple').assignLeader(Character.findByName(gameState.personnages, 'Pierre'));
     Faction.findByName(gameState.factions, 'noblesse').assignLeader(Character.findByName(gameState.personnages, 'Edmond de Virebois'));

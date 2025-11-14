@@ -31,8 +31,7 @@ import Faction from '../classes/Faction.js';
         materiaux : 3,
         bijoux : 3,
     },
-    scoreGuerre: {}, 
-    scoreAmitie: {},
+    speed : 0.05,
 };
 
 export default gameState;

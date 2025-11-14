@@ -22,7 +22,7 @@ export default class Button extends Phaser.GameObjects.Sprite {
 
             // Ajouter à la scène si ce n'est pas déjà fait
             this.interior = scene.add.image(
-          x + this.width / 2 - 1,
+          x + this.width / 2 - 2,
           y + this.height / 2 - 4,
           interior
         ).setOrigin(0).setDepth(this.depth + 1).setScale(2);

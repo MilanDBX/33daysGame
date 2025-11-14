@@ -1,3 +1,7 @@
+
+
+
+
 export default class Chat{
     constructor(scene,message) {
         this.message = Chat.formatText(message, 23,6);
@@ -35,6 +39,7 @@ Chat.typeText(this.scene,this.text, this.message[this.index],18);
 
     static typeText(scene, textObject, message, speed = 50) {
   let index = 0;
+  
 
   const timer = scene.time.addEvent({
     delay: speed,
