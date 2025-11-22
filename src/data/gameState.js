@@ -31,7 +31,7 @@ import Faction from '../classes/Faction.js';
         materiaux : 3,
         bijoux : 3,
     },
-    speed : 0.05,
+    speed : 1,
 };
 
 export default gameState;

@@ -1,7 +1,7 @@
 export const eventDatabase = {
   intro_messenger: {
     id: 'intro_messenger',
-    dialogue: "Bonjour Sire, Je suis votre messager personnel. Je serai à votre service pour vous /p transmettre /p les nouvelles /p du royaume et vous assister /p dans vos décisions. /p Bonne chance !"
+    dialogue: "Bonjour Sire, Je suis votre messager personnel. Je serai à votre service pour vous  transmettre  les nouvelles  du royaume et vous assister /p dans vos décisions. /p Bonne chance !"
   },
   intro_iwan: {
     id: 'intro_iwan',
