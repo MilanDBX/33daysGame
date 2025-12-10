@@ -11,6 +11,14 @@ export const eventDatabase = {
     id: 'intro_iwan',
     dialogue: "Je m'appelle Rhys, capitaine de votre garde. Ma mission est de protéger votre personne et le royaume contre toutes les menaces. Vous pouvez compter sur ma loyauté et mon courage."
   },
+  intro_gaspard: {
+    id: 'intro_gasprd',
+    dialogue: "Je suis GasXD le "
+  },
+  intro_emeline: {
+    id: 'intro_emeline',
+    dialogue: "je suis la despa du spar de spa, bonjour sire "
+  },
     
 };
 

@@ -91,6 +91,11 @@ export class Start extends Phaser.Scene {
     frameWidth: 32,
     frameHeight: 32
   });
+this.load.spritesheet('acceptsheet', 'assets/UI/uttons/button_accept_spritesheet.png', {
+    frameWidth: 48,
+    frameHeight: 32
+  });
+  
 
   //image preload
 
