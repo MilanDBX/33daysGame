@@ -7,11 +7,13 @@ import Faction from '../classes/Faction.js';
  
 
     jour: 0,
-    argent: 1000,
     lois: {},
     dayEvents: [],
     eventIndex: 0,
-    running : null,
+    running : false,
+    argent : 1700, //critique [0-400] faible[400-1000] moyen [1000-2000] riche [2000-3000] tres_riche [3000+]
+    argentStatus : 'moyen',
+    argentUpdated : true,
     
     personnages: [
     ],
@@ -26,12 +28,12 @@ import Faction from '../classes/Faction.js';
     ],
 
     economie : {
-        nourriture : 3,
-        armes : 3,
+        nourriture : 4,
+        armes : 2,
         materiaux : 3,
-        bijoux : 3,
+        bijoux : 1,
     },
-    speed : 0.4,
+    speed : 1,
 };
 
 export default gameState;
