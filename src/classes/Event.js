@@ -14,6 +14,8 @@ export default class Event {
     constructor(character, eventData,door) {
         this.door = door;
         this.character = character;
+        this.interactable = eventData.interactable || false;
+        
 
         if (typeof eventData === 'string') {
    this.eventData = eventDatabase[eventData];
@@ -27,9 +29,14 @@ else {
 
        
 
-        
+this.cons1 = eventData.cons[0];
+        //interaction part
+        if (this.interactable) {
+        this.cons2 = eventData.cons[1]
+        this.constext1 = eventData.constext[0];
+        this.constext2 = eventData.constext[1];
     }
-
+  }
     playEvent() {
       gameState.running = true;
   this.door.open();
