@@ -91,6 +91,28 @@ export class Start extends Phaser.Scene {
     frameWidth: 32,
     frameHeight: 32
   });
+  this.load.spritesheet('roguesheet', 'assets/spritesheet/rogue_spritesheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+  this.load.spritesheet('clericsheet', 'assets/spritesheet/cleric_spritesheet.png', {
+    frameWidth: 32,
+    frameHeight: 32
+  });
+
+
+this.load.spritesheet('acceptsheet', 'assets/UI/uttons/button_accept_spritesheet.png', {
+    frameWidth: 48,
+    frameHeight: 32
+  });
+
+
+  //New type of spritesheet for new buttons 
+  this.load.spritesheet('sleepButtonSheet', 'assets/UI/buttons/sleepbuttonspritesheet.png', {
+    frameWidth: 48,
+    frameHeight: 32
+  });
+  
 
   //image preload
 
@@ -177,28 +199,40 @@ export class Start extends Phaser.Scene {
 
   this.anims.create({
     key: 'basepnjsheet',
-    frames: this.anims.generateFrameNumbers('basepnjsheet', { start: 0, end: 6 }),
+    frames: this.anims.generateFrameNumbers('basepnjsheet', { start: 1, end: 6 }),
     frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'secondpnjsheet',
-    frames: this.anims.generateFrameNumbers('secondpnjsheet', { start: 0, end: 6 }),
+    frames: this.anims.generateFrameNumbers('secondpnjsheet', { start: 1, end: 6 }),
     frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'basepnjgirlsheet',
-    frames: this.anims.generateFrameNumbers('basepnjgirlsheet', { start: 0, end: 6 }),
+    frames: this.anims.generateFrameNumbers('basepnjgirlsheet', { start: 1, end: 6 }),
     frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
 
   this.anims.create({
     key: 'messengersheet',
-    frames: this.anims.generateFrameNumbers('messengersheet', { start: 0, end: 6 }),
+    frames: this.anims.generateFrameNumbers('messengersheet', { start: 1, end: 6 }),
+    frameRate: 7.5 * 1 / gameState.speed,
+    repeat: -1
+  });
+  this.anims.create({
+    key: 'roguesheet',
+    frames: this.anims.generateFrameNumbers('roguesheet', { start: 1, end: 6 }),
+    frameRate: 7.5 * 1 / gameState.speed,
+    repeat: -1
+  });
+  this.anims.create({
+    key: 'clericsheet',
+    frames: this.anims.generateFrameNumbers('clericsheet', { start: 1, end: 6 }),
     frameRate: 7.5 * 1 / gameState.speed,
     repeat: -1
   });
@@ -296,9 +330,11 @@ export class Start extends Phaser.Scene {
 
        gameState.personnages.push(new Character('Edmond de Virebois',"noblesse" , ['diplomate'],50,"secondpnjsheet"));
        gameState.personnages.push(new Character('Pierre', "peuple", ['assassin', 'loyal'],50,"basepnjsheet"));
-       gameState.personnages.push(new Character('Légat Marnus', "clergé", ['influenceuse']));
-       gameState.personnages.push(new Character('Chancelier Lucien', "cour", ['influenceuse'],50,"messengersheet"));
+       gameState.personnages.push(new Character('Archévèque Marinus', "clergé", ['loyal'],50,"clericsheet"));
+       gameState.personnages.push(new Character('Chambellan Lucien', "cour", ['influenceuse'],50,"basepnjsheet"));
        gameState.personnages.push(new Character('Khan Murad', "tarska", ['influenceuse']));
+       gameState.personnages.push(new Character('Rogue', "cour", ['influenceuse'],50,"roguesheet"));
+       
        
       
        gameState.personnages.push(new Character('maric Dorne', "calden", ['influenceuse']));
@@ -307,14 +343,14 @@ export class Start extends Phaser.Scene {
     Faction.findByName(gameState.factions, 'peuple').assignLeader(Character.findByName(gameState.personnages, 'Pierre'));
     Faction.findByName(gameState.factions, 'noblesse').assignLeader(Character.findByName(gameState.personnages, 'Edmond de Virebois'));
     Faction.findByName(gameState.factions, 'clergé').assignLeader(Character.findByName(gameState.personnages, 'Légat Marnus'));
-    Faction.findByName(gameState.factions, 'cour').assignLeader(Character.findByName(gameState.personnages, 'Chancelier Lucien'));
+    Faction.findByName(gameState.factions, 'cour').assignLeader(Character.findByName(gameState.personnages, 'Chambellan Lucien'));
     Faction.findByName(gameState.factions, 'tarska').assignLeader(Character.findByName(gameState.personnages, 'Khan Murad'));
     Faction.findByName(gameState.factions, 'calden').assignLeader(Character.findByName(gameState.personnages, 'maric Dorne'));
     Faction.findByName(gameState.factions, 'elsden').assignLeader(Character.findByName(gameState.personnages, 'Perceval de Hautecine'));
         
    
 
-          nextDay(this,gameState, door);
+          
             this.dayText.setText('j:' + gameState.jour);
         
 

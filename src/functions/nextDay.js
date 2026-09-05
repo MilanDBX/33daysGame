@@ -6,22 +6,31 @@ import Door from "../classes/Door.js";
 import Event from "../classes/Event.js";
 import nextEvent from "./nextEvent.js";
 import { eventDatabase } from "../data/eventData.js";
+import eventChoose from "./eventChoose.js";
+import  argentUpdate  from "./argentUpdate.js";
 
 
 export default function nextDay(scene,gameState, door) {
+
+    // éviter superposition des events
+    if (gameState.running === true) {
+        return
+    }
+    gameState.running = true
 
     scene.cameras.main.once('camerafadeoutcomplete', () => {
     // Pause de 1000ms (1 seconde) en noir avant de rouvrir
     scene.time.delayedCall(400, () => {
         gameState.jour += 1;
+        console.log("Jour actuel :", gameState.jour);
+        
+        argentUpdate();
+        eventChoose(door);
         scene.dayText.setText('j:' + gameState.jour);
+        console.log(gameState.argent);
+        
 
-        if(gameState.running === true){
-
-            console.log("was running")
-            
-        gameState.dayEvents[gameState.eventIndex].stopEvent();
-        }
+        
         scene.cameras.main.fadeIn(500);
     });
 });
@@ -32,16 +41,14 @@ export default function nextDay(scene,gameState, door) {
     //gameState.personnages.push(Character.randomCharacter());
     //gameState.personnages.push(Character.randomCharacter('noblesse'));
 
-    console.log("Jour actuel :", gameState.jour);
+    
 
     // définition des événements du jour (informatif / choix / histoire) au moins 1 informatif, 1 choix 
 
-    gameState.dayEvents = [];
-    gameState.eventIndex = 0;
+   
+    
 
-    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
-    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
-    gameState.dayEvents.push(new Event (Character.getRandomCharacter(), EventHelper.getRandom(),door));
+        
 
 
    scene.cameras.main.fadeOut(500);

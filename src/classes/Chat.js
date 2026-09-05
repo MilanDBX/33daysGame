@@ -8,7 +8,7 @@ export default class Chat{
         this.index = 0; 
         this.length = this.message.length;
         this.scene = scene;
-0    }
+    }
 
 
 
